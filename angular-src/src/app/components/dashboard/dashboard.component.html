@@ -1,0 +1,162 @@
+<div *ngIf="user">
+    
+<div class="container">
+    <button style="margin-left: 40%;" type="button"  class="btn btn-success" data-toggle="modal" data-target="#myModal">
+      Want to Write A Blog ? ..
+    </button>
+     <div class="modal" id="myModal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div style="padding: 20px;background-color:#d3d3d3;">
+            <h4 style="margin-left: 35%;"><b><u>CREATE A BLOG</u></b></h4>
+            <form (submit)="onBlogSubmit()" >
+                <div class="form-group">
+                    <label>Heading</label>
+                    <input type="text" [(ngModel)]="heading" cols="10" class="form-control" name="heading">
+                </div>
+                <div class="form-group">
+                    <label for="comment">Body</label>
+                    <textarea class="form-control" [(ngModel)]="description" rows="8" style="width:100%" id="description" name="description"></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-success">Submit</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+               
+            </form>
+          </div>
+        </div> 
+      </div>
+    </div> 
+  </div>    
+  <div class="row"> 
+   <div class="col-lg-12 col-md-12 col-xs-12 "  *ngFor="let bl of blogs | paginate: config ; index as i ">
+     <div class="thumb">
+       <div style="background-color: lavender;padding: 10px;">
+      <div>
+        <div><b>{{bl.blog.heading}}</b>  posted by {{bl.username}}
+           <p style="float:right">Created On : {{ bl.blog.created_on}}</p><br></div>
+      </div>
+      <div >
+        <p id="read_more">{{bl.blog.description}}</p>
+      </div>
+      <p style="text-align: center;"><button class="btn btn-primary" role="button" data-toggle="modal" [attr.data-target]="'#mymodal'+ i">Read More</button></p>
+    
+     
+  </div>  
+        <form (submit) = "onCommentSubmit(bl.blogId)">
+          <div style="padding: 10px;">
+            <i (click)=onLike(bl.blogId) class="fa fa-thumbs-up" onclick="myFunction(this)" style="font-size:35px"></i>&nbsp;&nbsp;
+            <!-- Liked By {{bl.likes}} -->
+            <p style="float: right;"><input [(ngModel)]="comDes" size="65" style="border-color:#d3d3d3"  id="comDes" name="comDes" width="200px" type="text" placeholder="Add a comment......">
+            <button type="submit" class="btn btn-info" value="Post" style="font-size: 13px;" >Post</button></p></div>
+         </form>
+         <div  id="date_create" >
+          <!-- <div *ngFor="let cm of bl.comments.slice().reverse();index as j">
+            <div *ngIf="j < 2">
+                {{cm.comName}} : "{{cm.comDes}}"
+              </div>
+            </div> -->
+            <p><button type="button" class="btn btn-info"style= "font-size:10px;" data-toggle="collapse" [attr.data-target]="'#demo'+ i">View All Comments</button></p>  
+            <div id = "demo{{i}}" class="collapse">
+              <div *ngFor="let cm of bl.comments.slice().reverse();index as j">
+                <!-- <div *ngIf="j != 0 && j != 1"> -->
+                {{cm.comName}} : "{{cm.comDes}}"
+              <!-- </div> -->
+            </div>
+        </div> 
+      </div>
+        
+      <!-- <div class = "comments">
+        <textarea> This is a simple comment box. </textarea>
+      </div> -->
+      
+ 
+    <div class="modal fade" id="mymodal{{i}}" role="dialog">
+      <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+          <div class="modal-header" style="padding: 40px 50px;background-color: #333;color: #fff !important;font-size: 30px;">
+            <h4 >{{bl.blog.heading}}</h4>
+          </div>
+          <div class="modal-body" style="padding: 40px 50px;">
+            {{bl.blog.description}}
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger" data-dismiss="modal"> 
+              <span class="glyphicon glyphicon-remove"></span> Cancel
+            </button>  
+          </div>
+        </div>
+      </div>
+    </div> 
+  
+
+   </div>
+  </div>
+  <div class="myPagination">
+    <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+  </div>
+  
+</div>
+
+
+  
+  
+  
+  
+  <style>
+    .myPagination{
+      margin-left: 30%;
+      font-size: larger;
+    }
+
+
+    .fa {
+  font-size: 50px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.fa:hover {
+  color: darkblue;
+}
+    span{
+      font-size: medium;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+
+    }
+    span b{
+      font-size: x-large;
+    }
+     .thumb{
+       margin-top: 0.5%;
+      margin-bottom: 20px;
+      margin-left: 10%;
+      margin-right: 10%;
+      padding: 15px;
+      /* margin: 50px; */
+      border-style:solid;
+      border-color: rgba(0, 0, 0, 0.125);
+      border-width:2px;
+     }
+    .thumb:hover{
+      border-color:#18bc9c;
+    }
+    .modal-lg {
+    max-width: 60% !important;
+    }
+
+
+    #read_more{
+ 	margin:30px;
+ 	overflow: hidden;
+ 	text-overflow: ellipsis;
+   font-size: medium;
+ 	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	margin : 20px 0 20px 0;
+ 	}
+  </style>
+
+ 

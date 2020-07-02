@@ -1,0 +1,32 @@
+<div class="form-a" style=" padding-left:30%;">
+<h2 class="page-header"  style="padding-top:12%;">Login</h2>
+
+<form class="form-signin"  (submit)="onLoginSubmit()">
+        <div style ="width:600px" class="form-group">
+          <label for="Username">Username</label>
+          <input type="text" class="form-control" placeholder="Enter Username" [(ngModel)]="username" name="username">
+        </div>
+        <div style ="width:600px" class="form-group">
+        <label for="Password">Password</label>
+        <input type="password" class="form-control" placeholder=" Enter Password" [(ngModel)]="password" name="password">
+        </div>
+        <!-- <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div> -->
+        <input class="btn btn-lg btn-primary" type="submit" value="Login">
+</form>
+
+</div>
+
+<style>
+  #alert-success{
+    z-index: 1000;
+  }
+
+  #alert-danger{
+    z-index: 1000;
+  }
+</style>
+

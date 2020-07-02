@@ -1,0 +1,46 @@
+<div  style="padding-left: 30%" >
+    <h2 class="page-header" >REGISTER</h2>
+    <form (submit)="onRegisterSubmit()" >
+      
+      <div style = "width: 600px" class="form-group ">
+        <label class="form-control-label" for="name">Name</label>
+        <input type="text" [(ngModel)]="name" name="name" class="form-control" id="name" placeholder="Enter Name" >
+      </div>
+
+      <div style = "width: 600px" class="form-group" id="usernameDiv">
+        <label class="form-control-label" for="username">Username</label>
+        <input type="text" [(ngModel)]="username" name="username" class="form-control dummy" id="username" 
+        placeholder="Enter Username" (change)="checkIfUsernameExists()">
+        <div id="usernameMsg"></div>
+      </div>
+
+      <div style = "width: 600px" class="form-group" id="emailDiv">
+        <label for="email">Email</label>
+        <input type="email" [(ngModel)]="email" name="email" class="form-control dummy" id="email" aria-describedby="emailHelp" 
+        placeholder="Enter Email" (change)="checkIfEmailIdExists()">
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        <div id="emailMsg"></div>
+      </div>
+
+
+      <div style = "width: 600px" class="form-group">
+        <label for="password">Password</label>
+        <input type="password" [(ngModel)]="password" name="password" class="form-control" id="password" placeholder=" Enter Password">
+      </div>
+     
+
+     <!-- <div style = "width: 600px"  class="form-group">
+    <div class="input-group mb-3">
+      <div class="custom-file">
+        
+        <label class="custom-file-label" for="inputGroupFile02">Choose Profile Picture</label>
+        <input type="file" class="custom-file-input" id="inputGroupFile02" name="profile_pic">
+      </div>
+      
+    </div>
+  </div> -->
+  
+
+  <input type="submit" class="btn btn-primary" value="Submit">
+</form>
+</div>

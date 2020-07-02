@@ -1,0 +1,357 @@
+<hr>
+     <div *ngIf="user"> 
+      <div class="container bootstrap snippet">
+        <div class="row">
+            <div class="col-sm-10">
+                <h1>Hello {{user.name}}</h1>
+            </div>
+            <div class="col-sm-2" style="margin-right: 0px;">
+                <a  class="pull-left"><img style = "height:200px;width:200px;border-radius:100px;"title="profile image" class="img-circle img-responsive" src="{{user.path_url}}"></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <ul class="list-group">
+                    <li class="list-group-item text-muted">Profile</li>
+                    <li class="list-group-item text-left"><span class="pull-left"><strong>Joined :  </strong></span> {{user.joined}}</li>
+                    <li class="list-group-item text-left"><span class="pull-left"><strong>Username :  </strong></span>{{user.username}}</li>
+                    <li class="list-group-item text-left"><span class="pull-left"><strong>Email :  </strong></span> {{user.email}}</li>
+                </ul>
+    
+                <ul class="list-group">
+                    <li class="list-group-item text-muted">Activity</li>
+                    <li class="list-group-item text-left"><span class="pull-left"><strong>Posts  :  </strong></span> {{blogs.length}}</li>
+                    <!-- <li class="list-group-item text-left"><span class="pull-left"><strong>Followers  :  </strong></span> 78</li> -->
+                </ul>
+              </div>
+           
+            <div class="col-sm-9">
+               <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                      <a class="nav-link active" data-toggle="tab" href="#blogs">Blogs</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#updateData">Update Info</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#ProfilePic">Change Profile Pic</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#Activity">Notifications</a>
+                </li>
+               </ul>
+            
+            <div class="tab-content">
+              <div id="blogs" class="container tab-pane active"><br>
+                
+              <div class="row"> 
+                <div class="col-lg-12 col-md-12 col-xs-12 " *ngFor="let bl of blogs | paginate: config ; index as i">
+                   <div class="thumb">
+                   <div>
+                      <h5><b>{{bl.blog.heading}}</b></h5>
+                      </div>
+                      <div >
+                       <p id="read_more">{{bl.blog.description}}</p>
+                      </div>
+                      <p><button  class="btn btn-primary" role="button" data-toggle="modal" [attr.data-target]="'#mymodal'+ i">Read More</button></p>
+                      <div  id="date_create">
+                       Created At : {{ bl.blog.created_on}}<br>
+                       Liked By : {{bl.likes}}
+                      </div> 
+                      <div *ngFor="let cm of bl.comments.slice().reverse();index as j">
+                        <!-- <div *ngIf="j < 2">
+                        {{cm.comName}} commented "{{cm.comDes}}"
+                      </div> -->
+                      </div>
+                      <p><button type="button" class="btn btn-info" data-toggle="collapse" style="font-size: 13px;" [attr.data-target]="'#demo'+ i">View All Comments</button></p>  
+                      <div id = "demo{{i}}" class="collapse">
+                      <div *ngFor="let cm of bl.comments.slice().reverse();index as j">
+                        <!-- <div *ngIf="j != 0 && j != 1"> -->
+                        {{cm.comName}} commented "{{cm.comDes}}"
+                      <!-- </div> -->
+                    </div>
+                  </div> 
+                        </div>  
+                        
+                      <div class="modal fade" id="mymodal{{i}}" role="dialog">
+                    <div class="modal-dialog modal-lg" >
+                      <div class="modal-content">
+                        <div class="modal-header" style="padding: 40px 50px;background-color: #333;color: #fff !important;font-size: 30px;">
+                         
+                          <h4 >{{bl.blog.heading}}</h4>
+                        </div>
+                        <div class="modal-body" style="padding: 40px 50px;">
+                          {{bl.blog.description}}
+                        </div>
+                        <div class="modal-footer">
+                         
+                          <button type="submit" class="btn btn-danger" data-dismiss="modal"> 
+                            <span class="glyphicon glyphicon-remove"></span> Cancel
+                          </button>  
+                        </div></div>
+                        
+           
+        </div>
+        
+      </div> 
+     
+      </div>
+      <div class="myPagination">
+        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+      </div>
+      </div>
+             </div>
+              <div id="updateData" class="container tab-pane fade show"><br>
+                    <div class="jumbotron">
+
+                        <form (submit)="onUpdateSubmit(user.email)">
+                            <div class="form-group">
+                                <div class="col-xs-4">
+                                    <label for="Name">
+                                        <h5>Name</h5></label>
+                                    <input type="text" [(ngModel)]="name" class="form-control" name="name" id="name" placeholder="Enter Name" title="enter your name if u want to update">
+                                </div>
+                            </div>
+                          <div class="form-group" id="curpassDiv">
+                                  <div class="col-xs-6">
+                                    <label class="form-control-label" for="Current Password">
+                                        <h5>Current Password</h5></label>
+                                    <input type="password" [(ngModel)]="cur_password" class="form-control" name="cur_password" id="cur_password" placeholder="Current password" title="enter your Current password." (change)="checkIfPassIsValid(user.email)">
+                                    <div id="passwordMsg"></div>
+                                  </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="password">
+                                        <h5>Password</h5></label>
+                                    <input type="password"  [(ngModel)]="new_password" class="form-control" [disabled] = "isDisabled()" name="new_password" id="new_password" placeholder="New password" title="enter your updated password.">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <br>
+                                    <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                                </div>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
+
+              <div id="ProfilePic" class="container tab-pane fade show"><br>
+                 <div class="jumbotron" style="width: 100%;">
+                      <h5>Choose Avatar</h5>
+                  <div class="row">
+
+                      <div class="col-lg-3 col-md-4 col-xs-6 thumb" *ngFor="let pic of user.array_pic">
+                          <a href="" class="fancybox" rel="ligthbox">
+                            <img (click)="setAsProfilePic(user.email)" src="{{ pic }}" class="zoom img-fluid rounded-circle" alt="" #image1>
+                          </a>
+                        </div>
+
+                   
+                  </div>
+                  <br><br>
+
+                      
+                  <div class="col-xs-9">
+                      
+                          <h5>Choose Custom pic</h5>
+
+                          <div class="file-upload preview form-group files" style = "width: 400px;">
+                             
+                            <input type="file" name="image"  ng2FileSelect [uploader]="uploader" accept="image/x-png,image/gif,image/jpeg" />
+                          </div> 
+
+                         <br><br>
+
+                  </div> 
+
+                  
+                      <div class="col-xs-9">
+                        <div class="progress" style="background-color: #A9A9A9;">
+                          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"
+                          aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                        </div> 
+                        <hr>
+                     
+   
+                          <br>
+                            <button class="btn btn-lg btn-success" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                          </div>
+                 
+
+         
+                
+            
+
+
+            </div>
+
+            </div>
+            <div id="Activity" class="container tab-pane fade show"><br>
+              <div class="row"> 
+                <div class="col-lg-12 col-md-12 col-xs-12 " *ngFor="let eve of user.events ;index as i">
+                   <div class="thumb" style="border-style:solid;">
+                   <div>
+                      <h5><b>{{eve.name}} posted a {{eve.value}} on your post with title "{{eve.heading}}"</b></h5>
+                      </div>
+                      
+                  </div> 
+                 </div>  
+               
+     
+      </div>
+      </div>
+              </div>
+        
+    </div>
+    </div>
+    </div>
+
+    </div>
+  
+
+
+
+
+   <style>
+
+    .jumbotron {
+        padding-top: 6%;
+        height: 80%;
+        width: 70%;
+    }
+
+    .nav-link{
+      color: #18bc9c;
+    }
+
+    .btn-success{
+      background-color: #18bc9c;
+      border-color: #18bc9c;
+    }
+
+    .progress-bar {
+      background-color: #18bc9c;
+    }
+
+    #demo {
+      height:100%;
+      position:relative;
+      overflow:hidden;
+    }
+
+
+    .green{
+      background-color:#6fb936;
+    }
+    .thumb{
+      margin-bottom: 30px;
+      padding: 15px;
+      margin: 10px;
+      border-style:dashed;
+      border-color: rgba(0, 0, 0, 0.125);
+      border-width:3px;
+     }
+    .thumb:hover{
+      border-color:#18bc9c;
+    }
+    .page-top{
+      margin-top:85px;
+    }
+
+   
+    img.zoom {
+      width: 100%;
+      height: 150px;
+      border-radius:5px;
+      object-fit:cover;
+      -webkit-transition: all .3s ease-in-out;
+      -moz-transition: all .3s ease-in-out;
+      -o-transition: all .3s ease-in-out;
+      -ms-transition: all .3s ease-in-out;
+    }
+        
+ 
+    .transition {
+      -webkit-transform: scale(1.2); 
+      -moz-transform: scale(1.2);
+      -o-transform: scale(1.2);
+      transform: scale(1.2);
+    }
+    .modal-header {
+      border-bottom: none;
+    }
+    .modal-title {
+        color:#000;
+    }
+    .modal-lg {
+    max-width: 60% !important;
+}
+    
+#read_more{
+ 	margin:30px;
+ 	overflow: hidden;
+ 	text-overflow: ellipsis;
+   font-size: medium;
+ 	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	margin : 20px 0 20px 0;
+ 	}
+
+    .files input {
+      outline: 2px dashed #92b0b3;
+      outline-offset: -10px;
+      -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+      transition: outline-offset .15s ease-in-out, background-color .15s linear;
+      padding: 120px 0px 85px 35%;
+      text-align: center !important;
+      margin: 0;
+      width: 100% !important;
+    }
+    .files input:focus{     outline: 2px dashed #92b0b3;  outline-offset: -10px;
+      -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+      transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
+    }
+    .files{ position:relative}
+    .files:after {  pointer-events: none;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 50px;
+        right: 0;
+        height: 56px;
+        content: "";
+        background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
+        display: block;
+        margin: 0 auto;
+        background-size: 100%;
+        background-repeat: no-repeat;
+    }
+
+    .color input{ 
+      background-color:#f1f1f1;
+    }
+
+    .files:before {
+        position: absolute;
+        bottom: 10px;
+        left: 0;  pointer-events: none;
+        width: 100%;
+        right: 0;
+        height: 57px;
+        content: " or drag it here. ";
+        display: block;
+        margin: 0 auto;
+        color: #2ea591;
+        font-weight: 600;
+        text-transform: capitalize;
+        text-align: center;
+    }
+
+    .myPagination{
+      margin-left: 30%;
+    }
+</style>
+   
