@@ -130,7 +130,6 @@ export class AuthService {
   getBlogs() {
     let headers = new Headers();
     this.loadToken();
-    console.log("apoorv" + this.authToken);
     headers.append('Authorization' , this.authToken);
     headers.append('Content-Type' ,'application/json');
     return this.http.get('http://localhost:3000/blogs/profileBlogs', {headers: headers})
@@ -140,7 +139,6 @@ export class AuthService {
   getAllBlogs() {
     let headers = new Headers();
     this.loadToken();
-    console.log("apoorv all" + this.authToken);
     headers.append('Authorization' , this.authToken);
     headers.append('Content-Type' ,'application/json');
     return this.http.get('http://localhost:3000/blogs/profileAllBlogs', {headers: headers})
