@@ -13,3 +13,13 @@ accessing the main features of our website. Even there is a contact us option wh
 help us to connect with users of our website if they have any queries regarding accessing 
 our website. Basically this project is created with the purpose of learning new 
 technologies and understanding how things work in real world.
+
+Tools and Technologies used 
+● Express JS - backend  
+● HTML, CSS, Angular as front end language for website. Bootstrap as a front end 
+framework. 
+● Sublime Text for website development. 
+● APIs for connecting Front-end to Back-end. 
+● MongoDB database. 
+● Cloudinary Service for Image Uploading. 
+● Heroku for Deployment.
